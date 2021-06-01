@@ -1,9 +1,5 @@
 const Logo = (props) => (
-  <img
-    alt="Logo"
-    src="/static/logo.svg"
-    {...props}
-  />
+  <h2>Ch'aska</h2>
 );
 
 export default Logo;

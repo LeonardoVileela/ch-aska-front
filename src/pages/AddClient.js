@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ApiService from 'src/api/ApiService';
 import Alert from 'src/components/Alert';
+import { cpfMask } from 'src/components/mask/cpfMask';
 import Spinner from 'src/components/Spinner';
 import { Box, Container } from '@material-ui/core';
 import { Navigate } from 'react-router-dom';
@@ -46,7 +47,13 @@ export default class AddClient extends Component {
     onInputChangeHandler(event) {
         const field = event.target.name;
         const value = event.target.value;
-        this.setState(prevState => ({ client: { ...prevState.client, [field]: value } }));
+        if(event.target.name === 'cpf')
+        {
+            this.setState(prevState => ({ client: { ...prevState.client, [field]: cpfMask(value) } }));
+        }else{
+            this.setState(prevState => ({ client: { ...prevState.client, [field]: value } }));
+        }
+        
     }
 
 
@@ -87,6 +94,7 @@ export default class AddClient extends Component {
                                     className="form-control"
                                     name="cpf"
                                     placeholder="Digite o CPF"
+                                    value={this.state.client.cpf}
                                     onChange={this.onInputChangeHandler} />
                             </div>
                             <button

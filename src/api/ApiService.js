@@ -115,6 +115,7 @@ class ApiService {
     }
     //Employees
 
+    //
     getJWTTokenData() {
         const jwtToken = this.getJWTToken();
         if(jwtToken == null) {
@@ -127,6 +128,8 @@ class ApiService {
     getJWTToken() {
         return sessionStorage.getItem(JWT_TOKEN_NAME);
     }
+
+    //
 
     load(id, onLoad, onError) {
         axios.get(`${API_ENDPOINT}/tasks/${id}`, this.buildAuthHeader())

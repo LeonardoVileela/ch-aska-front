@@ -4,6 +4,7 @@ import Alert from 'src/components/Alert';
 import Spinner from 'src/components/Spinner';
 import { Box, Container } from '@material-ui/core';
 import { Navigate } from 'react-router-dom';
+import { priceMask } from 'src/components/mask/priceMask';
 
 export default class AddProduct extends Component {
     constructor(props) {
@@ -33,7 +34,7 @@ export default class AddProduct extends Component {
     onSubmitHandler(event) {
         event.preventDefault();
         this.setState({ saving: true, alert: null });
-        
+
         ApiService.saveProduct(this.state.product,
             () => this.setState({ redirect: true, saving: false }),
             error => {
@@ -48,14 +49,25 @@ export default class AddProduct extends Component {
     onInputChangeHandler(event) {
         const field = event.target.name;
         const value = event.target.value;
-        this.setState(prevState => ({ product: { ...prevState.product, [field]: value } }));
+
+        if (event.target.name === 'price') {
+            this.setState(prevState => ({ product: { ...prevState.product, [field]: priceMask(value) } }));
+        } else {
+            this.setState(prevState => ({ product: { ...prevState.product, [field]: value } }));
+        }
+
+
+
+
+
+
     }
 
 
     render() {
         if (this.state.redirect) {
             // eslint-disable-next-line
-            {alert("CADASTRADO COM SUCESSO")}
+            { alert("CADASTRADO COM SUCESSO") }
             return <Navigate to="/app/products" />
         }
 
@@ -104,6 +116,7 @@ export default class AddProduct extends Component {
                                 <input type="text"
                                     className="form-control"
                                     name="price"
+                                    value={this.state.product.price}
                                     placeholder="Digite o preço"
                                     onChange={this.onInputChangeHandler} />
                             </div>
@@ -112,10 +125,10 @@ export default class AddProduct extends Component {
                                 className="btn btn-primary"
                                 disabled={this.state.saving}>
                                 {
-                                   this.state.buttonName
+                                    this.state.buttonName
                                 }
                             </button>
-                           
+
                         </form>
                     </Container>
                 </Box>
