@@ -7,9 +7,7 @@ const MainNavbar = (props) => (
     {...props}
   >
     <Toolbar sx={{ height: 64 }}>
-
       <Logo />
-
     </Toolbar>
   </AppBar>
 );

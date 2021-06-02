@@ -56,11 +56,6 @@ export default class AddProduct extends Component {
             this.setState(prevState => ({ product: { ...prevState.product, [field]: value } }));
         }
 
-
-
-
-
-
     }
 
 

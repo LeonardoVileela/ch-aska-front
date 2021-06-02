@@ -4,6 +4,7 @@ import Alert from 'src/components/Alert';
 import Spinner from 'src/components/Spinner';
 import { Box, Container } from '@material-ui/core';
 import { Navigate } from 'react-router-dom';
+import { cpfMask } from 'src/components/mask/cpfMask';
 
 export default class AddClient extends Component {
     constructor(props) {
@@ -65,7 +66,12 @@ export default class AddClient extends Component {
     onInputChangeHandler(event) {
         const field = event.target.name;
         const value = event.target.value;
-        this.setState(prevState => ({ client: { ...prevState.client, [field]: value } }));
+        if(event.target.name === 'cpf')
+        {
+            this.setState(prevState => ({ client: { ...prevState.client, [field]: cpfMask(value) } }));
+        }else{
+            this.setState(prevState => ({ client: { ...prevState.client, [field]: value } }));
+        }
     }
 
 

@@ -10,10 +10,10 @@ import {
 } from '@material-ui/core';
 import {
   BarChart as BarChartIcon,
-  Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
-  Users as UsersIcon
+  Users as UsersIcon,
+  ShoppingCart
 } from 'react-feather';
 import NavItem from './NavItem';
 import InputIcon from '@material-ui/icons/Input';
@@ -22,10 +22,9 @@ import { Navigate } from 'react-router-dom';
 import AuthService from 'src/api/AuthService';
 import ApiService from 'src/api/ApiService';
 
-
 const user = {
-  jobTitle: 'Senior Developer',
-  name: 'Leonardo Vilela'
+  jobTitle: `${ApiService.getJWTTokenData() === null ? "" : ApiService.getJWTTokenData().admin ? 'Administrador' : 'Funcionário'}`,
+  name: `${ApiService.getJWTTokenData() === null ? "" : ApiService.getJWTTokenData().username}`
 };
 var items = []
 if (ApiService.getJWTTokenData() != null) {
@@ -47,12 +46,12 @@ if (ApiService.getJWTTokenData() != null) {
     },
     {
       href: '/app/sale',
-      icon: UserIcon,
+      icon: ShoppingCart,
       title: 'Vendas'
     },
     {
       href: '/app/employee',
-      icon: SettingsIcon,
+      icon: UserIcon,
       title: 'Funcionários'
     }
   ] : [
@@ -73,7 +72,7 @@ if (ApiService.getJWTTokenData() != null) {
     },
     {
       href: '/app/sale',
-      icon: UserIcon,
+      icon: ShoppingCart,
       title: 'Vendas'
     }
   ];

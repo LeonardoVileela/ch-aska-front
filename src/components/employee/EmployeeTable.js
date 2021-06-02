@@ -40,15 +40,17 @@ export default class EmployeeTable extends Component {
   }
 
   handleDeleteEmployee(id) {
-    this.setState({
-      loading: true,
-    })
+    if (window.confirm("TEM CERTEZA QUE DESEJA EXCLUIR?")) {
+      this.setState({
+        loading: true,
+      })
 
-    ApiService.deleteEmployee(
-      id,
-      onDelete => this.onDelete(onDelete),
-      error => this.setErrorState(error)
-    );
+      ApiService.deleteEmployee(
+        id,
+        onDelete => this.onDelete(onDelete),
+        error => this.setErrorState(error)
+      );
+    }
   }
 
   onDelete(onDelete) {
@@ -73,7 +75,7 @@ export default class EmployeeTable extends Component {
           this.setErrorState(`Erro na requisição: ${error.message}`);
         }
       })
-    
+
 
   }
 

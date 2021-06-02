@@ -40,15 +40,20 @@ export default class SaleTable extends Component {
     }
 
     handleDeleteSale(id) {
-        this.setState({
-            loading: true,
-        })
+        if (window.confirm("TEM CERTEZA QUE DESEJA EXCLUIR?")) {
+            this.setState({
+                loading: true,
+            })
 
-        ApiService.deleteSale(
-            id,
-            onDelete => this.onDelete(onDelete),
-            error => this.setErrorState(error)
-        );
+            ApiService.deleteSale(
+                id,
+                onDelete => this.onDelete(onDelete),
+                error => this.setErrorState(error)
+            );
+
+        }
+
+
     }
 
     onDelete(onDelete) {

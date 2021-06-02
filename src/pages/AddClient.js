@@ -33,7 +33,13 @@ export default class AddClient extends Component {
         event.preventDefault();
         this.setState({ saving: true, alert: null });
 
-        ApiService.saveClient(this.state.client,
+        const client = {
+            name: this.state.client.name.toUpperCase(),
+            cpf: this.state.client.cpf
+
+        }
+
+        ApiService.saveClient(client,
             () => this.setState({ redirect: true, saving: false }),
             error => {
                 if (error.response) {
@@ -47,13 +53,12 @@ export default class AddClient extends Component {
     onInputChangeHandler(event) {
         const field = event.target.name;
         const value = event.target.value;
-        if(event.target.name === 'cpf')
-        {
+        if (event.target.name === 'cpf') {
             this.setState(prevState => ({ client: { ...prevState.client, [field]: cpfMask(value) } }));
-        }else{
+        } else {
             this.setState(prevState => ({ client: { ...prevState.client, [field]: value } }));
         }
-        
+
     }
 
 

@@ -50,11 +50,13 @@ export default class ProductTable extends Component {
   }
 
   handleDeleteProduct(id) {
-    ApiService.deleteProduct(
-      id,
-      onDelete => this.onDelete(onDelete),
-      error => this.setErrorState(error)
-    );
+    if (window.confirm("TEM CERTEZA QUE DESEJA EXCLUIR?")) {
+      ApiService.deleteProduct(
+        id,
+        onDelete => this.onDelete(onDelete),
+        error => this.setErrorState(error)
+      );
+    }
   }
 
   onDelete(onDelete) {
@@ -183,8 +185,8 @@ export default class ProductTable extends Component {
                       Deletar Produto
                     </Button></center>,
 
-                  modal: <ProductModal id={product.id} />
-                      
+                    modal: <ProductModal id={product.id} />
+
                   }
                 })]
               }

@@ -4,6 +4,7 @@ import Alert from 'src/components/Alert';
 import Spinner from 'src/components/Spinner';
 import { Box, Container } from '@material-ui/core';
 import { Navigate } from 'react-router-dom';
+import { priceMask } from 'src/components/mask/priceMask';
 
 export default class AddProduct extends Component {
     constructor(props) {
@@ -67,7 +68,11 @@ export default class AddProduct extends Component {
     onInputChangeHandler(event) {
         const field = event.target.name;
         const value = event.target.value;
-        this.setState(prevState => ({ product: { ...prevState.product, [field]: value } }));
+        if (event.target.name === 'price') {
+            this.setState(prevState => ({ product: { ...prevState.product, [field]: priceMask(value) } }));
+        } else {
+            this.setState(prevState => ({ product: { ...prevState.product, [field]: value } }));
+        }
     }
 
 
@@ -146,6 +151,3 @@ export default class AddProduct extends Component {
         )
     }
 }
-
-
-//
