@@ -131,6 +131,21 @@ class ApiService {
 
     //
 
+    //Statistics
+    totalSales(id, onFetch, onError) {
+        axios.get(`${API_ENDPOINT}/salesTotal/${id}`, this.buildAuthHeader())
+            .then(response => onFetch(response.data))
+            .catch(e => onError(e));
+    }
+
+    totalContSales(id, onFetch, onError) {
+        axios.get(`${API_ENDPOINT}/salesCont/${id}`, this.buildAuthHeader())
+            .then(response => onFetch(response.data))
+            .catch(e => onError(e));
+    }
+
+    //Statistics
+
     load(id, onLoad, onError) {
         axios.get(`${API_ENDPOINT}/tasks/${id}`, this.buildAuthHeader())
             .then(response => onLoad(response.data))

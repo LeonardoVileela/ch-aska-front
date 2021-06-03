@@ -90,7 +90,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const content = (
     <Box
       sx={{
-        backgroundColor: "#D5DFED",
+        backgroundColor: "#e3f1fc",
         display: 'flex',
         flexDirection: 'column',
         height: '100%'

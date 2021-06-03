@@ -76,7 +76,6 @@ export default class AddClient extends Component {
             <div>
                 <Box
                     sx={{
-                        backgroundColor: 'white',
                         minHeight: '100%',
                         py: 3
                     }}

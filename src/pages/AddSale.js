@@ -35,7 +35,6 @@ export default class AddSale extends Component {
                 </Helmet>
                 <Box
                     sx={{
-                        backgroundColor: 'white',
                         minHeight: '100%',
                         py: 3
                     }}

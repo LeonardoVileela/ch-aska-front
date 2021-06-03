@@ -4,10 +4,8 @@ import {
   Container,
   Grid
 } from '@material-ui/core';
-import Budget from 'src/components/dashboard//Budget';
-import TasksProgress from 'src/components/dashboard//TasksProgress';
-import TotalCustomers from 'src/components/dashboard//TotalCustomers';
-import TotalProfit from 'src/components/dashboard//TotalProfit';
+import TotalSales from 'src/components/dashboard/TotalSales';
+import TotalContSales from 'src/components/dashboard/TotalContSales';
 import React, { Component } from 'react'
 
 export default class Dashboard extends Component {
@@ -31,40 +29,23 @@ export default class Dashboard extends Component {
             >
               <Grid
                 item
-                lg={3}
+                lg={4}
                 sm={6}
                 xl={3}
                 xs={12}
               >
-                <Budget />
+                <TotalSales />
               </Grid>
               <Grid
                 item
-                lg={3}
+                lg={4}
                 sm={6}
                 xl={3}
                 xs={12}
               >
-                <TotalCustomers />
+                <TotalContSales />
               </Grid>
-              <Grid
-                item
-                lg={3}
-                sm={6}
-                xl={3}
-                xs={12}
-              >
-                <TasksProgress />
-              </Grid>
-              <Grid
-                item
-                lg={3}
-                sm={6}
-                xl={3}
-                xs={12}
-              >
-                <TotalProfit sx={{ height: '100%' }} />
-              </Grid>
+              
             </Grid>
           </Container>
         </Box>

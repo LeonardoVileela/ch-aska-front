@@ -76,16 +76,11 @@ class ProductModal extends Component {
 
             <div>
 
-
-
-
-
                 <Button backgroundColor="white" onClick={
                     () => this.handleOpen(this.props.id)
                 }>
                     < VisibilityIcon />
                 </Button>
-
 
 
                 <Modal

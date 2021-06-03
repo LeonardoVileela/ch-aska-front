@@ -90,7 +90,6 @@ export default class AddProduct extends Component {
             <div>
                 <Box
                     sx={{
-                        backgroundColor: 'white',
                         minHeight: '100%',
                         py: 3
                     }}
