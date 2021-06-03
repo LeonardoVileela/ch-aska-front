@@ -6,13 +6,14 @@ import {
   Grid,
   Typography
 } from '@material-ui/core';
-import { green } from '@material-ui/core/colors';
+import { green, red } from '@material-ui/core/colors';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import InsertChartIcon from '@material-ui/icons/InsertChartOutlined';
 import React, { Component } from 'react'
 import ApiService from 'src/api/ApiService';
 import Alert from '../Alert';
 import Spinner from '../Spinner';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 export default class TotalContSales extends Component {
   constructor(props) {
@@ -90,16 +91,31 @@ export default class TotalContSales extends Component {
                     pt: 2
                   }}
                 >
-                  <ArrowUpwardIcon sx={{ color: green[900] }} />
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: green[900],
-                      mr: 1
-                    }}
-                  >
-                    16%
-                  </Typography>
+                  {this.state.totalContSales.percentage ?
+                    <ArrowUpwardIcon sx={{ color: green[900] }} />
+                    :
+                    <ArrowDownwardIcon sx={{ color: red[900] }} />
+                  }
+                  {this.state.totalContSales.percentage ?
+                    <Typography
+                      sx={{
+                        color: green[900],
+                        mr: 1
+                      }}
+                      variant="body2"
+                    >
+                      {this.state.totalContSales.percentageTotal}%
+                    </Typography> :
+                    <Typography
+                      sx={{
+                        color: red[900],
+                        mr: 1
+                      }}
+                      variant="body2"
+                    >
+                      {this.state.totalContSales.percentageTotal}%
+                    </Typography>
+                  }
                   <Typography
                     color="textSecondary"
                     variant="caption"
