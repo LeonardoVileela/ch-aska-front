@@ -29,7 +29,20 @@ export default class SaleTable extends Component {
   listSale() {
     this.setState({ loading: true });
     ApiService.listSales(
-      sales => this.setState({ sales: sales, loading: false }),
+      sales => this.setState({
+        sales: sales.map(
+          function (prod) {
+            var totalPrice = 0
+            for (let j = 0; j < prod.product.length; j++) {
+              totalPrice = totalPrice + prod.product[j].price
+            }
+
+            var totalSale = { totalSale: totalPrice.toFixed(2) }
+            var prodDone = Object.assign(totalSale, prod)
+            return prodDone;
+          }
+        ), loading: false
+      }),
       error => this.setErrorState(error)
     );
   }
@@ -71,6 +84,11 @@ export default class SaleTable extends Component {
                     label: 'Data Da Venda',
                     field: 'whenToDo',
                     sort: 'asc'
+                  }, 
+                  {
+                    label: 'Valor Total',
+                    field: 'priceTotal',
+                    sort: 'asc'
                   }
 
                 ],
@@ -79,7 +97,8 @@ export default class SaleTable extends Component {
                     id: sale.id,
                     nameAppUser: Object.values(sale.appUser)[1],
                     nameClient: Object.values(sale.client)[1],
-                    whenToDo: sale.whenToDo
+                    whenToDo: sale.whenToDo,
+                    priceTotal: `R$ ${sale.totalSale}`
 
                   }
                 })

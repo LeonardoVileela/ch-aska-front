@@ -18,6 +18,7 @@ export default class ProductTable extends Component {
             empty: true,
             alert: null,
             id: null,
+            total: 0.0,
             redirect: false,
             infoLabel: [
                 "Mostrado", "a", "de", "entradas"
@@ -47,6 +48,10 @@ export default class ProductTable extends Component {
                     var done = { done: false }
                     var prodDone = Object.assign(done, prod)
                     return prodDone;
+                }).map(function (prod) {
+                    var quantity = { quantity: 1 }
+                    var prodQuantity = Object.assign(quantity, prod)
+                    return prodQuantity;
                 }), loading: false, empty: false
             }),
             error => this.setErrorState(error)
@@ -61,36 +66,62 @@ export default class ProductTable extends Component {
     }
 
     checked(product) {
-
-        if (product.done) {
-            const array = this.state.productsSale;
-
-            const index = array.indexOf(`${product.id}`);
-            if (index > -1) {
-                array.splice(index, 1);
-            }
-
-        } else {
-            var entry = this.state.productsSale
-            entry[this.state.productsSale.length] = `${product.id}`
-            this.setState({ productsSale: entry })
-
-        }
         product.done = !product.done;
-
-
         const products = this.state.products.map(t => t.id !== product.id ? t : product);
-        this.setState({ products: products });
 
-        console.log(this.state.products)
-        console.log(this.state.productsSale)
+
+        //calcular preço total para exibir na tela
+        var entry = this.state.products
+        var productsFinalSale = entry.filter((e) => e.done === true)
+        var totalPrice = 0
+        for (let i = 0; i < productsFinalSale.length; i++) {
+            for (let j = 0; j < productsFinalSale[i].quantity; j++) {
+                totalPrice = totalPrice + productsFinalSale[i].price
+            }
+        }
+        //calcular preço total para exibir na tela
+        this.setState({ products: products, total: totalPrice.toFixed(2) });
+
+    }
+
+
+    quantity(product, quant) {
+
+        var array = this.state.products;
+        array.map((e) => e.id === product.id ? e.quantity = parseInt(quant.target.value) : e)
+
+        //calcular preço total para exibir na tela
+        var entry = this.state.products
+        var productsFinalSale = entry.filter((e) => e.done === true)
+        var totalPrice = 0
+        for (let i = 0; i < productsFinalSale.length; i++) {
+            for (let j = 0; j < productsFinalSale[i].quantity; j++) {
+                totalPrice = totalPrice + productsFinalSale[i].price
+            }
+        }
+        //calcular preço total para exibir na tela
+
+        this.setState({
+            products: array,
+            total: totalPrice.toFixed(2)
+        })
 
     }
     handleAddSale(event) {
         event.preventDefault()
+
+        var entry = this.state.products
+        var productsFinalSale = entry.filter((e) => e.done === true)
+        var arrayAux = []
+        for (let i = 0; i < productsFinalSale.length; i++) {
+            for (let j = 0; j < productsFinalSale[i].quantity; j++) {
+                arrayAux[arrayAux.length] = `${productsFinalSale[i].id}`
+            }
+        }
+
         var sale = {
             client: `${this.state.id}`,
-            products: this.state.productsSale
+            products: arrayAux
         }
         ApiService.saveSale(sale,
             () => this.setState({ redirect: true, saving: false }),
@@ -106,8 +137,8 @@ export default class ProductTable extends Component {
 
     render() {
         if (this.state.redirect) {
-             // eslint-disable-next-line
-             {alert("CADASTRADO COM SUCESSO")}
+            // eslint-disable-next-line
+            { alert("CADASTRADO COM SUCESSO") }
             return <Navigate to="/app/sale" />
         }
 
@@ -120,13 +151,6 @@ export default class ProductTable extends Component {
                             justifyContent: 'flex-end'
                         }}
                     >
-                        <Button
-                            color="primary"
-                            variant="contained"
-                            onClick={this.handleAddSale}
-                        >
-                            Adicionar Nova Venda
-                        </Button>
                     </Box>
                     <MDBDataTable
                         striped
@@ -168,6 +192,7 @@ export default class ProductTable extends Component {
         }
         return (
             <div>
+                <h1>TOTAL: R$ {this.state.total}</h1>
                 <Box
                     sx={{
                         display: 'flex',
@@ -197,6 +222,10 @@ export default class ProductTable extends Component {
                                         label: '',
                                         field: 'checkbox',
                                         sort: 'asc'
+                                    }, {
+                                        label: 'Quantidade',
+                                        field: 'quantity',
+                                        sort: 'asc'
                                     },
                                     {
                                         label: 'ID',
@@ -225,7 +254,7 @@ export default class ProductTable extends Component {
                                         checkbox: <Checkbox
                                             onChange={() => this.checked(product)}
                                             inputProps={{ 'aria-label': 'primary checkbox' }}
-                                        />,
+                                        />, quantity: <input min="1" onChange={(e) => this.quantity(product, e)} style={{ width: 60 }} type="number" id="quantity" name="quantity" />,
                                         id: product.id,
                                         name: product.name,
                                         price: `R$ ${product.price.toFixed(2)}`,

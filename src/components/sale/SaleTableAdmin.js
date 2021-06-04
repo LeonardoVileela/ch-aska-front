@@ -30,9 +30,23 @@ export default class SaleTable extends Component {
     listSale() {
         this.setState({ loading: true });
         ApiService.listSales(
-            sales => this.setState({ sales: sales, loading: false }),
+            sales => this.setState({
+                sales: sales.map(
+                    function (prod) {
+                        var totalPrice = 0
+                        for (let j = 0; j < prod.product.length; j++) {
+                            totalPrice = totalPrice + prod.product[j].price
+                        }
+
+                        var totalSale = { totalSale: totalPrice.toFixed(2) }
+                        var prodDone = Object.assign(totalSale, prod)
+                        return prodDone;
+                    }
+                ), loading: false
+            }),
             error => this.setErrorState(error)
         );
+
     }
 
     setErrorState(error) {
@@ -99,6 +113,11 @@ export default class SaleTable extends Component {
                                         sort: 'asc'
                                     },
                                     {
+                                        label: 'Valor Total',
+                                        field: 'priceTotal',
+                                        sort: 'asc'
+                                    },
+                                    {
                                         label: '',
                                         field: 'buttonDelete',
                                         sort: 'asc'
@@ -111,6 +130,7 @@ export default class SaleTable extends Component {
                                         nameAppUser: Object.values(sale.appUser)[1],
                                         nameClient: Object.values(sale.client)[1],
                                         whenToDo: sale.whenToDo,
+                                        priceTotal: `R$ ${sale.totalSale}`,
                                         buttonDelete: <center> <Button
                                             color="primary"
                                             variant="contained"
