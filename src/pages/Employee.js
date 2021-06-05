@@ -10,7 +10,7 @@ export default class Employee extends Component {
     return (
       <>
         <Helmet>
-          <title>Customers | Material Kit</title>
+          <title>Ch'aska</title>
         </Helmet>
         <Box
           sx={{

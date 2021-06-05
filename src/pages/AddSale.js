@@ -31,7 +31,7 @@ export default class AddSale extends Component {
         return (
             <>
                 <Helmet>
-                    <title>Customers | Material Kit</title>
+                    <title>Ch'aska</title>
                 </Helmet>
                 <Box
                     sx={{

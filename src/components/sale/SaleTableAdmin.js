@@ -3,7 +3,12 @@ import React, { Component } from 'react'
 import ApiService from 'src/api/ApiService';
 import Spinner from '../Spinner';
 import Alert from '../Alert';
-import { Button } from '@material-ui/core';
+import { Button, MuiThemeProvider, createMuiTheme } from '@material-ui/core';
+import { Navigate } from 'react-router-dom';
+import { red } from '@material-ui/core/colors';
+
+
+const redTheme = createMuiTheme({ palette: { primary: red } })
 
 export default class SaleTable extends Component {
     constructor(props) {
@@ -15,6 +20,7 @@ export default class SaleTable extends Component {
             deleteSale: false,
             alert: null,
             id: null,
+            showProducts: false,
             infoLabel: [
                 "Mostrado", "a", "de", "entradas"
             ]
@@ -58,15 +64,19 @@ export default class SaleTable extends Component {
             this.setState({
                 loading: true,
             })
-
             ApiService.deleteSale(
                 id,
                 onDelete => this.onDelete(onDelete),
                 error => this.setErrorState(error)
             );
-
         }
+    }
+    handleShowProducts(id) {
 
+        this.setState({
+            showProducts: true,
+            id: id
+        })
 
     }
 
@@ -79,6 +89,9 @@ export default class SaleTable extends Component {
     }
 
     render() {
+        if (this.state.showProducts) {
+            return <Navigate to={"/app/saleProducts/" + this.state.id} />
+        }
         return (
             <div>
 
@@ -119,6 +132,11 @@ export default class SaleTable extends Component {
                                     },
                                     {
                                         label: '',
+                                        field: 'showProducts',
+                                        sort: 'asc'
+                                    },
+                                    {
+                                        label: '',
                                         field: 'buttonDelete',
                                         sort: 'asc'
                                     }
@@ -131,13 +149,20 @@ export default class SaleTable extends Component {
                                         nameClient: Object.values(sale.client)[1],
                                         whenToDo: sale.whenToDo,
                                         priceTotal: `R$ ${sale.totalSale}`,
-                                        buttonDelete: <center> <Button
+                                        showProducts: <center> <Button
+                                            color="primary"
+                                            variant="contained"
+                                            onClick={() => this.handleShowProducts(sale.id)}
+                                        >
+                                            Mostrar Produtos
+                                        </Button></center>,
+                                        buttonDelete: <center><MuiThemeProvider theme={redTheme}> <Button
                                             color="primary"
                                             variant="contained"
                                             onClick={() => this.handleDeleteSale(sale.id)}
                                         >
                                             Deletar Venda
-                                        </Button></center>,
+                                        </Button></MuiThemeProvider></center>,
 
                                     }
                                 })

@@ -16,6 +16,7 @@ import EditClient from './pages/EditClient';
 import Product from 'src/pages/Product';
 import EditProduct from './pages/EditProduct';
 import ApiService from './api/ApiService';
+import ShowProductsSale from './pages/ShowProductsSale';
 var routes = []
 if (ApiService.getJWTTokenData() !== null) {
   if (ApiService.getJWTTokenData().admin) {
@@ -35,6 +36,7 @@ if (ApiService.getJWTTokenData() !== null) {
           { path: 'employee', element: <Employee /> },
           { path: 'addEmployee', element: <AddEmployee /> },
           { path: 'addSale/:id', element: <AddSale /> },
+          { path: 'saleProducts/:id', element: <ShowProductsSale /> },
           { path: '*', element: <Navigate to="/404" /> }
         ]
       },
@@ -65,6 +67,7 @@ if (ApiService.getJWTTokenData() !== null) {
           { path: 'dashboard', element: <Dashboard /> },
           { path: 'products', element: <Product /> },
           { path: 'addSale/:id', element: <AddSale /> },
+          { path: 'saleProducts/:id', element: <ShowProductsSale /> },
           { path: '*', element: <Navigate to="/404" /> }
         ]
       },

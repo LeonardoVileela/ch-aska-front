@@ -13,7 +13,7 @@ export default class Dashboard extends Component {
     return (
       <>
         <Helmet>
-          <title>Dashboard | Material Kit</title>
+          <title>Ch'aska</title>
         </Helmet>
         <Box
           sx={{

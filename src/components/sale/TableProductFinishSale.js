@@ -123,6 +123,7 @@ export default class ProductTable extends Component {
             client: `${this.state.id}`,
             products: arrayAux
         }
+
         ApiService.saveSale(sale,
             () => this.setState({ redirect: true, saving: false }),
             error => {

@@ -3,9 +3,12 @@ import React, { Component } from 'react'
 import ApiService from 'src/api/ApiService';
 import Spinner from '../Spinner';
 import Alert from '../Alert';
-import { Button } from '@material-ui/core';
+import { Button, MuiThemeProvider, createMuiTheme } from '@material-ui/core';
 import { Navigate } from 'react-router-dom';
 import ProductModal from './ProductModal'
+import { red } from '@material-ui/core/colors';
+
+const redTheme = createMuiTheme({ palette: { primary: red } })
 
 export default class ProductTable extends Component {
   constructor(props) {
@@ -177,13 +180,13 @@ export default class ProductTable extends Component {
                       Editar Produto
                     </Button></center>,
 
-                    buttonDelete: <center> <Button
+                    buttonDelete: <center><MuiThemeProvider theme={redTheme}> <Button
                       color="primary"
                       variant="contained"
                       onClick={() => this.handleDeleteProduct(product.id)}
                     >
                       Deletar Produto
-                    </Button></center>,
+                    </Button></MuiThemeProvider></center>,
 
                     modal: <ProductModal id={product.id} />
 

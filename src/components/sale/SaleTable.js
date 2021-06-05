@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import ApiService from 'src/api/ApiService';
 import Spinner from '../Spinner';
 import Alert from '../Alert';
+import { Navigate } from 'react-router-dom';
+import { Button } from '@material-ui/core';
 
 export default class SaleTable extends Component {
   constructor(props) {
@@ -14,6 +16,7 @@ export default class SaleTable extends Component {
       deleteSale: false,
       alert: null,
       id: null,
+      showProducts: false,
       infoLabel: [
         "Mostrado", "a", "de", "entradas"
       ]
@@ -51,7 +54,19 @@ export default class SaleTable extends Component {
     this.setState({ alert: `Erro na requisição: ${error.message}`, loading: false })
   }
 
+  handleShowProducts(id) {
+
+    this.setState({
+      showProducts: true,
+      id: id
+    })
+
+  }
+
   render() {
+    if (this.state.showProducts) {
+      return <Navigate to={"/app/saleProducts/" + this.state.id} />
+    }
     return (
       <div>
 
@@ -84,12 +99,17 @@ export default class SaleTable extends Component {
                     label: 'Data Da Venda',
                     field: 'whenToDo',
                     sort: 'asc'
-                  }, 
+                  },
                   {
                     label: 'Valor Total',
                     field: 'priceTotal',
                     sort: 'asc'
-                  }
+                  },
+                  {
+                    label: '',
+                    field: 'showProducts',
+                    sort: 'asc'
+                  },
 
                 ],
                 rows: [...this.state.sales.map((sale) => {
@@ -98,7 +118,14 @@ export default class SaleTable extends Component {
                     nameAppUser: Object.values(sale.appUser)[1],
                     nameClient: Object.values(sale.client)[1],
                     whenToDo: sale.whenToDo,
-                    priceTotal: `R$ ${sale.totalSale}`
+                    priceTotal: `R$ ${sale.totalSale}`,
+                    showProducts: <center> <Button
+                      color="primary"
+                      variant="contained"
+                      onClick={() => this.handleShowProducts(sale.id)}
+                    >
+                      Mostrar Produtos
+                    </Button></center>,
 
                   }
                 })

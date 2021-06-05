@@ -17,7 +17,7 @@ export default class Sale extends Component {
         return (
           <>
             <Helmet>
-              <title>Customers | Material Kit</title>
+              <title>Ch'aska</title>
             </Helmet>
             <Box
               sx={{
@@ -39,7 +39,7 @@ export default class Sale extends Component {
         return (
           <>
             <Helmet>
-              <title>Customers | Material Kit</title>
+              <title>Ch'aska</title>
             </Helmet>
             <Box
               sx={{
@@ -61,7 +61,7 @@ export default class Sale extends Component {
     return (
       <>
         <Helmet>
-          <title>Customers | Material Kit</title>
+          <title>Ch'aska</title>
         </Helmet>
         <Box
           sx={{

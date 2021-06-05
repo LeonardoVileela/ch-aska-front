@@ -3,7 +3,10 @@ import React, { Component } from 'react'
 import ApiService from 'src/api/ApiService';
 import Spinner from '../Spinner';
 import Alert from '../Alert';
-import { Button } from '@material-ui/core';
+import { Button, MuiThemeProvider, createMuiTheme } from '@material-ui/core';
+import { red } from '@material-ui/core/colors';
+
+const redTheme = createMuiTheme({ palette: { primary: red } })
 
 export default class EmployeeTable extends Component {
   constructor(props) {
@@ -59,23 +62,31 @@ export default class EmployeeTable extends Component {
   }
 
   handleAdminEmployee(id, boolVar) {
-    boolVar = !boolVar
-    this.setState({
-      loading: true,
-    })
-    var admin = {
-      admin: boolVar
+    var confirm = ''
+    if (boolVar) {
+      confirm = "TEM CERTEZA QUE DESEJA TORNAR ESSE USUÁRIO UM NÃO ADMINISTRADOR?"
+    } else {
+      confirm = "TEM CERTEZA QUE DESEJA TORNAR ESSE USUÁRIO UM ADMINISTRADOR?"
     }
-    ApiService.putEmployeeAdmin(id, admin,
-      () => this.setState({ loading: false }, this.listEmployee()),
-      error => {
-        if (error.response) {
-          this.setErrorState(`Erro: ${error.response.data.error}`);
-        } else {
-          this.setErrorState(`Erro na requisição: ${error.message}`);
-        }
-      })
 
+    if (window.confirm(confirm)) {
+      boolVar = !boolVar
+      this.setState({
+        loading: true,
+      })
+      var admin = {
+        admin: boolVar
+      }
+      ApiService.putEmployeeAdmin(id, admin,
+        () => this.setState({ loading: false }, this.listEmployee()),
+        error => {
+          if (error.response) {
+            this.setErrorState(`Erro: ${error.response.data.error}`);
+          } else {
+            this.setErrorState(`Erro na requisição: ${error.message}`);
+          }
+        })
+    }
 
   }
 
@@ -176,7 +187,7 @@ export default class EmployeeTable extends Component {
                   return {
                     id: employee.id,
                     username: employee.username,
-                    admin: `${employee.admin}`,
+                    admin: `${employee.admin ? 'Sim' : 'Não'}`,
                     buttonAdmin: <center> <Button
                       color="primary"
                       onClick={() => this.handleAdminEmployee(employee.id, employee.admin)}
@@ -184,14 +195,14 @@ export default class EmployeeTable extends Component {
                     >
                       Admin
                     </Button></center>,
-                    buttonDelete: <center> <Button
+                    buttonDelete: <center><MuiThemeProvider theme={redTheme}> <Button
                       color="primary"
                       variant="contained"
                       disabled={employee.admin ? true : false}
                       onClick={() => this.handleDeleteEmployee(employee.id)}
                     >
                       Deletar Funcionário
-                    </Button></center>
+                    </Button></MuiThemeProvider></center>
 
                   }
                 })

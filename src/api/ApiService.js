@@ -38,6 +38,11 @@ class ApiService {
             .then(response => onFetch(response.data))
             .catch(e => onError(e));
     }
+    listSale(id, onFetch, onError) {
+        axios.get(`${API_ENDPOINT}/sales/${id}`, this.buildAuthHeader())
+            .then(response => onFetch(response.data.product))
+            .catch(e => onError(e));
+    }
 
     deleteSale(id, onDelete, onError) {
         axios.delete(`${API_ENDPOINT}/sales/${id}`, this.buildAuthHeader())
